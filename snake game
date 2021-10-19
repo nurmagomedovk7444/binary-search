@@ -53,35 +53,17 @@ class snake():
         c=collide3(self.pos[0],self.pos[1],self.pos[0]+10,self.pos[1]+10,x[0],x[1],x[0]+10,x[1]+10, self.size)
         return c
     def add_apple(self):
-        self.score +=1
-        block = pg.Surface((10*self.size,10*self.size))
-        block.fill((0,255,0))
+
         self.images.append([block,[10,10]])
 class apple():
     def __init__(self,size):
-        self.pos = [random.randrange(10, 780,10),random.randrange(10,430,10)]
-        self.image = pg.Surface((10*size,10*size))
-        self.image.fill((255,0,0))
-class game():
-    def __init__(self,speed, size=1):
-        self.screen = pg.display.set_mode((800,450))
-        pg.display.set_caption('Snake Game')
+        sele Game')
         self.snake = snake(speed, size)
         self.blocks = []
         self.score = 0
         self.size = size
         self.left,self.right,self.up,self.down = False,False,False,False
         self.hover = False
-        self.click0 = False
-        color = (0,0,0)
-        for x in range(0,800,10):
-            t=pg.Surface((10,10))
-            t.fill(color)
-            self.blocks.append([t, [x,0]])
-        for x in range(0,800,10):
-            t=pg.Surface((10,10))
-            t.fill(color)
-            self.blocks.append([t, [x,440]])
         for x in range(0,450,10):
             t=pg.Surface((10,10))
             t.fill(color)
@@ -109,13 +91,16 @@ class game():
             pg.display.update();
             self.make_button((153,300,100,50),'Restart', [(255,255,255),(150,150,150)], action = lambda:restart())
             if self.hover ==True:
-                click = pg.mouse.get_pressed()
-                if click[0] == 1:
-                    self.click0 = True
-                if self.click0 == True:
-                    if click[0] == 0:
-                        self.buttonclick()
-                        self.click0 = False
+                 self.game_over = False
+        while self.game_over != True:
+            self.screen.fill((35,38,117))
+            self.snake.update()
+            for x in self.blocks:
+                if self.snake.check_collisions(x[1]) == True:
+                    self.over()
+                self.screen.blit(x[0],x[1])
+            a=0
+            for x in self.snake.images
     def make_button(self, pos, text, color, action=None, textsize=20):
         mouse = pg.mouse.get_pos()
         oldpos = pos
@@ -131,12 +116,13 @@ class game():
         radius = rectangle.blit(circle,(0,0))
         radius.bottomright = rect.bottomright
         rectangle.blit(circle,radius)
-        radius.topright     = rect.topright
-        rectangle.blit(circle,radius)
-        radius.bottomleft   = rect.bottomleft
+        radius.toct.bottomleft
         rectangle.blit(circle,radius)
         
-
+elf.down == False:
+                            self.reset()
+                            self.snake.up()
+                            self.up = True
         rectangle.fill((0,0,0),rect.inflate(-radius.w,0))
         rectangle.fill((0,0,0),rect.inflate(0,-radius.h))
         pos = oldpos
@@ -151,7 +137,7 @@ class game():
             alpha = color.a
             color.a = 0
             self.hover = False
-        rectangle.fill(color,special_flags=pg.BLEND_RGBA_MAX)
+        self.left,self.right,self.up,self.down
         rectangle.fill((255,255,255, alpha),special_flags=pg.BLEND_RGBA_MIN)   
         self.screen.blit(rectangle,pos)
         txts = pg.font.SysFont('Courier New',textsize).render(text,True,(0,0,0))
@@ -177,9 +163,11 @@ class game():
                 self.screen.blit(x[0],x[1])
                 a+=1
             if self.snake.check_apple(self.apple.pos) == True:
-                self.snake.add_apple()
-                del self.apple
-                self.apple = apple(self.size)
+                self.left,self.right,self.up,self.down = False,False,False,False
+    def loop(self):
+        self.game_over = False
+        while self.game_over != True:
+            self.screen.fill((35,38,117))
             self.screen.blit(self.apple.image,self.apple.pos)
             self.screen.blit(self.snake.image,self.snake.pos)
             for event in pg.event.get():
@@ -188,9 +176,10 @@ class game():
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_RIGHT:
                         if self.left == False:
-                            self.reset()
-                            self.snake.right()
-                            self.right = True
+                      ectangle.fill(color,special_flags=pg.BLEND_RGBA_MAX)
+        rectangle.fill((255,255,255, alpha),special_flags=pg.BLEND_RGBA_MIN)   
+        self.screen.blit(rectangle,pos)
+        txts = pg.font.SysFont('Courier New',textsize).render(text,True,(0,0,0))
                     if event.key == pg.K_LEFT:
                         if self.right == False:
                             self.reset()
@@ -271,10 +260,11 @@ class startmenu():
             alpha = color.a
             color.a = 0
         else:
-            color = pg.Color(*color[0])
-            alpha = color.a
-            color.a = 0
-            self.hover = False
+            self.left,self.right,self.up,self.down = False,False,False,False
+    def loop(self):
+        self.game_over = False
+        while self.game_over != True:
+            self.screen.fill((35,38,117))
         rectangle.fill(color,special_flags=pg.BLEND_RGBA_MAX)
         rectangle.fill((255,255,255, alpha),special_flags=pg.BLEND_RGBA_MIN)   
         self.screen.blit(rectangle,pos)
@@ -324,12 +314,12 @@ class startmenu():
         start(1, self.size)
     def ex(self):
         start(2, self.size)
-    def exit(self):
-        sys.exit()
-def start(speed,size):
+    
     global g,m
     del m
-    
+    global m
+    pg.init()
+    m = startmenu()
     g=game(speed,size)
     g.loop()
 def restart():
